@@ -78,7 +78,7 @@ Divisi Frontend mengatur tampilan antarmuka interaktif di port `3000` menggunaka
 
 ---
 
-## 5. Cara Menjalankan Layanan (Development)
+## 5. Cara Menjalankan (Development)
 Untuk menjalankan proyek ini di mesin lokal, Anda WAJIB membuka 3 buah terminal terpisah, karena setiap layanan berjalan di *environment* dan bahasa pemrograman yang berbeda:
 
 **Terminal 1: Menjalankan AI FastAPI (Python)**
