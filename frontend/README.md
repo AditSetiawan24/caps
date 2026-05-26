@@ -1,0 +1,1 @@
+panduan ada di panduan_build.md
