@@ -78,8 +78,30 @@ Divisi Frontend mengatur tampilan antarmuka interaktif di port `3000` menggunaka
 
 ---
 
-## 5. Cara Menjalankan (Development)
-Untuk menjalankan proyek ini di mesin lokal, Anda WAJIB membuka 3 buah terminal terpisah, karena setiap layanan berjalan di *environment* dan bahasa pemrograman yang berbeda:
+## 5. Instalasi & Cara Menjalankan (Untuk Developer Baru)
+Jika Anda baru pertama kali men-*clone* repositori ini, Anda WAJIB melakukan instalasi *library* di semua bagian. Buka terminal di folder utama (*root*) proyek, lalu jalankan perintah berikut secara berurutan:
+
+**Langkah 1: Setup Lingkungan (Environment)**
+1. Masuk ke folder `frontend`, ubah nama file `.env.example` menjadi `.env.local`, dan isi variabelnya.
+2. Masuk ke folder `backend`, ubah nama file `.env.example` menjadi `.env`, dan isi variabelnya.
+
+**Langkah 2: Instalasi Dependensi**
+Buka terminal dan jalankan:
+```bash
+# 1. Install Library Frontend
+cd frontend
+npm install
+
+# 2. Install Library Backend Node.js
+cd ../backend
+npm install
+
+# 3. Install Library AI Python
+pip install -r requirements.txt
+```
+
+**Langkah 3: Menjalankan Server Lokal**
+Untuk menjalankan proyek ini, Anda WAJIB membuka 3 buah terminal terpisah:
 
 **Terminal 1: Menjalankan AI FastAPI (Python)**
 - Buka terminal, arahkan ke folder `backend/`
