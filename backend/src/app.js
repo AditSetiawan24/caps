@@ -27,6 +27,10 @@ app.get('/', (req, res) => {
   res.status(200).json({ status: 'Aman Dong!', project: 'Capstone Review Film - Dicoding 2026' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server Backend berjalan di port http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Server Backend berjalan di port http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;

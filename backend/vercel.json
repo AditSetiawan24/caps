@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "src/app.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "250mb"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/predict-sentiment",
+      "dest": "/api.py"
+    },
+    {
+      "src": "/recommend",
+      "dest": "/api.py"
+    },
+    {
+      "src": "/health",
+      "dest": "/api.py"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/src/app.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/src/app.js"
+    }
+  ]
+}

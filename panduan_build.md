@@ -78,8 +78,30 @@ Divisi Frontend mengatur tampilan antarmuka interaktif di port `3000` menggunaka
 
 ---
 
-## 5. Cara Menjalankan (Development)
-Untuk menjalankan proyek ini di mesin lokal, Anda WAJIB membuka 3 buah terminal terpisah, karena setiap layanan berjalan di *environment* dan bahasa pemrograman yang berbeda:
+## 5. Instalasi & Cara Menjalankan (Untuk Developer Baru)
+Jika Anda baru pertama kali men-*clone* repositori ini, Anda WAJIB melakukan instalasi *library* di semua bagian. Buka terminal di folder utama (*root*) proyek, lalu jalankan perintah berikut secara berurutan:
+
+**Langkah 1: Setup Lingkungan (Environment)**
+1. Masuk ke folder `frontend`, ubah nama file `.env.example` menjadi `.env.local`, dan isi variabelnya.
+2. Masuk ke folder `backend`, ubah nama file `.env.example` menjadi `.env`, dan isi variabelnya.
+
+**Langkah 2: Instalasi Dependensi**
+Buka terminal dan jalankan:
+```bash
+# 1. Install Library Frontend
+cd frontend
+npm install
+
+# 2. Install Library Backend Node.js
+cd ../backend
+npm install
+
+# 3. Install Library AI Python
+pip install -r requirements.txt
+```
+
+**Langkah 3: Menjalankan Server Lokal**
+Untuk menjalankan proyek ini, Anda WAJIB membuka 3 buah terminal terpisah:
 
 **Terminal 1: Menjalankan AI FastAPI (Python)**
 - Buka terminal, arahkan ke folder `backend/`
@@ -95,6 +117,37 @@ Untuk menjalankan proyek ini di mesin lokal, Anda WAJIB membuka 3 buah terminal 
 - Buka terminal baru, arahkan ke folder `frontend/`
 - Jalankan perintah: `npm run dev`
 - *Buka `http://localhost:3000` di Browser Anda.*
+
+---
+
+## 6. Panduan Deployment Produksi (Full Vercel)
+
+Proyek ini telah dikonfigurasi untuk dapat di-deploy secara penuh di Vercel, baik Frontend maupun Backend (Node.js + AI Python). Berikut adalah langkah-langkahnya:
+
+### A. Deployment Frontend
+1. Hubungkan repositori GitHub proyek ini ke Vercel.
+2. Saat membuat proyek baru di Vercel, set **Root Directory** ke folder `frontend`.
+3. Pastikan **Framework Preset** otomatis terpilih menjadi `Next.js`.
+4. Masukkan seluruh konfigurasi variabel di dalam `.env.local` (seperti *Supabase URL*) ke tab **Environment Variables** di Vercel.
+5. Klik **Deploy**.
+
+### B. Deployment Backend (Node.js & AI Gabungan)
+Folder `backend` telah dilengkapi dengan file `vercel.json` yang memungkinkan Node.js dan FastAPI (Python) berjalan berdampingan sebagai Vercel Serverless Function.
+1. Buat proyek baru lagi di Vercel (pisahkan dari proyek Frontend).
+2. Hubungkan repositori GitHub yang sama, lalu set **Root Directory** ke folder `backend`.
+3. Biarkan **Framework Preset** dalam status **Other** (karena `vercel.json` yang akan mengatur jalurnya).
+4. Masukkan seluruh variabel dari file `.env` backend.
+5. **Krusial:** Tambahkan variabel `AI_ENGINEER_API_URL`. Karena Node.js dan AI kini berada di satu server Vercel yang sama, isi variabel ini dengan URL domain Vercel backend Anda sendiri (contoh: `https://capstone-backend.vercel.app`).
+6. Klik **Deploy**.
+
+**⚠️ PERINGATAN UKURAN MODEL AI:** 
+Vercel *Serverless Functions* (termasuk *Hobby tier*) memiliki **batas maksimal ukuran file 250MB** setelah di-kompres. 
+- Jika model `.keras` dan `.pkl` Anda berukuran ringan (di bawah 250MB beserta *library* Python-nya), deployment ini akan sukses.
+- Jika ukuran model sangat besar hingga Gigabyte, Vercel **akan membatalkan build** dengan *error size limit exceeded*.
+- **Solusi Alternatif:** Jika model terlalu besar, hapus file `vercel.json` dan *deploy* folder `backend` Anda ke *Virtual Private Server* (VPS) milik sendiri atau layanan PaaS seperti Render.com/Railway yang mengizinkan ukuran file besar.
+
+> **Penting Setelah Deployment:**
+> Setelah Backend Vercel berhasil *online*, **JANGAN LUPA** memperbarui variabel `NEXT_PUBLIC_API_URL` di Frontend Vercel Anda agar merujuk ke URL Backend yang baru!
 
 ---
 **Catatan Umum:** Sistem aplikasi ini mengandalkan arsitektur *microservices* yang saling terhubung. Jika satu divisi mengganti tipe data request/response, WAJIB menginformasikannya ke divisi yang terhubung agar tidak terjadi *Axios Network Error 400/404/500*.
