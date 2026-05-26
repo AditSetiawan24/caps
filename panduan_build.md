@@ -7,12 +7,12 @@ Dokumen ini berisi panduan dan aturan krusial bagi setiap divisi (Frontend, Back
 ## Gambaran Besar Arsitektur
 Sistem ini menggunakan arsitektur *Microservices*, di mana beban kerja dibagi ke dalam 4 komponen utama yang saling berinteraksi:
 
-1. **Frontend (Antarmuka Pengguna):** Dibangun dengan **Next.js** (berjalan di port `3000`). Komponen ini bertanggung jawab penuh atas interaksi visual dengan pengguna, seperti menampilkan halaman utama, *form* pencarian, dan tombol *login*. Frontend tidak menyimpan data secara mandiri; seluruh interaksi data dilakukan melalui permintaan HTTP (API) ke Backend.
-2. **Backend (API Utama & Logika Bisnis):** Dibangun dengan **Node.js/Express** (berjalan di port `5000`). Ini adalah pusat pengendali sistem yang mendistribusikan *request* dari Frontend:
+1. **Frontend :** Dibangun dengan **Next.js** (berjalan di port `3000`). Komponen ini bertanggung jawab penuh atas interaksi visual dengan pengguna, seperti menampilkan halaman utama, *form* pencarian, dan tombol *login*. Frontend tidak menyimpan data secara mandiri; seluruh interaksi data dilakukan melalui permintaan HTTP (API) ke Backend.
+2. **Backend :** Dibangun dengan **Node.js/Express** (berjalan di port `5000`). Ini adalah pusat pengendali sistem yang mendistribusikan *request* dari Frontend:
    - Jika *request* membutuhkan data operasional (seperti detail film atau ulasan), Backend akan melakukan operasi CRUD ke Database.
    - Jika *request* membutuhkan komputasi spesifik (seperti sistem rekomendasi atau klasifikasi teks), Backend akan meneruskannya ke layanan AI.
-3. **Database (Penyimpanan Data Terpusat):** Menggunakan **Supabase PostgreSQL**. Komponen ini menyimpan seluruh data esensial aplikasi (tabel film, akun pengguna, dan riwayat *review*). Untuk alasan keamanan, transaksi langsung ke Database hanya dilakukan oleh Backend Node.js.
-4. **AI Service (Layanan Komputasi Terisolasi):** Dibangun dengan **Python FastAPI** (berjalan di port `8000`). Layanan ini berjalan independen dan tidak memiliki akses langsung ke Database maupun Frontend. Fungsinya murni mengolah komputasi model *Machine Learning*:
+3. **Database :** Menggunakan **Supabase PostgreSQL**. Komponen ini menyimpan seluruh data esensial aplikasi (tabel film, akun pengguna, dan riwayat *review*). Untuk alasan keamanan, transaksi langsung ke Database hanya dilakukan oleh Backend Node.js.
+4. **AI Service :** Dibangun dengan **Python FastAPI** (berjalan di port `8000`). Layanan ini berjalan independen dan tidak memiliki akses langsung ke Database maupun Frontend. Fungsinya murni mengolah komputasi model *Machine Learning*:
    - *Sistem Rekomendasi:* Menerima parameter judul, melakukan kalkulasi matematika (*Cosine Similarity*) menggunakan file `.pkl` dan `.csv`, lalu mengembalikan sekumpulan ID film teratas ke Backend.
    - *Analisis Sentimen:* Menerima parameter teks dari Backend, memprosesnya melalui model TensorFlow/Keras (`.keras`), dan mengembalikan label klasifikasi (contoh: *Positive* / *Negative*).
 
